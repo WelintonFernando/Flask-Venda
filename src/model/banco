@@ -1,0 +1,36 @@
+DROP DATABASE  IF EXISTS  venda;
+CREATE DATABASE IF NOT EXISTS venda;
+USE venda;
+
+CREATE TABLE Cliente (
+    codcliente INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    endereco VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Produto (
+    codproduto INT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE Venda (
+    codvenda INT PRIMARY KEY AUTO_INCREMENT,
+    data DATE NOT NULL,
+    valor_total DECIMAL(10, 2) NOT NULL,
+    codcliente INT,
+    FOREIGN KEY (codcliente) REFERENCES Cliente(codcliente)
+);
+
+CREATE TABLE ItemVenda (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    codvenda INT,
+    codproduto INT,
+    qtde INT NOT NULL,
+    valor DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (codvenda) REFERENCES Venda(codvenda),
+    FOREIGN KEY (codproduto) REFERENCES Produto(codproduto)
+);
+
+
+select * from Produto;

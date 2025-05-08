@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+        <html lang="pt-BR">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Realizar Venda</title>
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        </head>
+        <body>
+            <section class="venda-container">
+                    <form method="POST" action="/salvar_venda">
+                        <h2>Realizar uma venda</h2>
+                        <div class="venda-topo">
+                            <label for="cliente">Cliente</label>
+                            <div class="input-pesquisa">
+                                <input id="texto" type="text" name="termo" placeholder="Pesquisar">
+                                <button type="submit" class="search-button" onclick=remover_item()>
+                                    <img src="{{ url_for('static', filename='img/search.png') }}" alt="Pesquisar">
+                                </button>
+                            </div>
+                            <select name="cliente" id="cliente">
+                                {% for cliente in clientes %}
+                                    <option value="{{ cliente['codcliente'] }}">{{cliente['codcliente']}} {{ cliente['nome'] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Ações -->
+                        <div class="venda-actions" >
+                            <a href="/" class="btn">Voltar</a>
+                            <button type="submit" class="btn">Concluir</button>
+                        </div>
+
+
+
+                        <div class="venda-tabelas">
+                            <div class="tabela-box">
+                                <h3>Carrinho</h3>
+                                <div class="tabela-container">
+                                    <div id="dados-carrinho"></div>
+                                    <table class="produtos-tabela">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Nome</th>
+                                                <th>Preço</th>
+                                                <th>Quantidade</th>
+                                                <th>Total</th>
+                                                <th>Remover</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="carrinho">
+                                            <!-- Itens do carrinho serão adicionados dinamicamente -->
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                            </div>
+                    </form>
+
+                        <!-- Produtos Cadastrados -->
+                        <div class="tabela-box">
+                            <h3>Produtos Cadastrados</h3>
+                            <!-- Barra de Pesquisa dos Produtos Cadastrados -->
+                            <div class="input-pesquisa">
+                                <form action="/busca_produto_venda" method="POST">
+                                    <input type="text" name="termo" placeholder="Pesquisar">
+                                    <button type="submit" class="search-button">
+                                        <img src="{{ url_for('static', filename='img/search.png') }}" alt="Pesquisar">
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="tabela-container">
+                                <table class="produtos-tabela">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Nome</th>
+                                            <th>Preço</th>
+                                            <th>Quantidade</th>
+                                            <th>Adicionar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for produto in produtos %}
+                                        <tr>
+                                            <td>{{ produto['codproduto'] }}</td>
+                                            <td>{{ produto['nome'] }}</td>
+                                            <td>{{ produto['preco'] }}</td>
+                                            <td>
+                                                <input type="number" name="quantidade_{{ produto['codproduto'] }}" min="1" value="1" class="quantidade-input">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn-tabela" onclick="adicionarAoCarrinho({{ produto['codproduto'] }}, '{{ produto['nome'] }}', {{ produto['preco'] }})">Adicionar</button>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+            </section>
+
+            <script>
+                function adicionarAoCarrinho(codigo, nome, preco) {
+                    const quantidadeInput = document.querySelector(`input[name="quantidade_${codigo}"]`);
+                    const quantidade = quantidadeInput ? quantidadeInput.value : 1;
+
+                    const carrinho = document.getElementById('carrinho');
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${codigo}</td>
+                        <td>${nome}</td>
+                        <td>${preco.toFixed(2)}</td>
+                        <td><input type="number" name="quantidade_${codigo}" min="1" value="${quantidade}" class="quantidade-input" readonly></td>
+                        <td>${(preco * quantidade).toFixed(2)}</td>
+                        <td><button type="button" onclick="removerDoCarrinho(this)">Remover</button></td>
+                    `;
+                    const dadosCarrinho = document.getElementById('dados-carrinho');
+
+                    const inputProduto = document.createElement('input');
+                    inputProduto.type = 'hidden';
+                    inputProduto.name = 'produtos[]';
+                    inputProduto.value = `${codigo}|${nome}|${preco}|${quantidade}`;
+
+                    dadosCarrinho.appendChild(inputProduto);
+
+                    carrinho.appendChild(row);
+
+                    calcularTotal();
+                }
+
+                function removerDoCarrinho(button) {
+                    const row = button.parentElement.parentElement;
+                    row.remove();
+                    calcularTotal();
+                }
+
+                function calcularTotal() {
+                    const carrinho = document.getElementById('carrinho');
+                    let total = 0;
+
+                    carrinho.querySelectorAll('tr').forEach(row => {
+                        const totalCell = row.children[4];
+                        if (totalCell) {
+                            total += parseFloat(totalCell.textContent);
+                        }
+                    });
+
+                    document.getElementById('total').textContent = `Total: R$ ${total.toFixed(2)}`;
+                }
+
+                function remover_item() {
+                    const texto = document.getElementById("texto").value.toLowerCase();
+                    const lista = document.getElementById("cliente");
+                    let firstVisibleOption = null;
+
+                    for (let i = 0; i < lista.options.length; i++) {
+                        const option = lista.options[i];
+                        if (option.text.toLowerCase().includes(texto)) {
+                            option.style.display = ""; // Mostra a opção
+                            if (!firstVisibleOption) {
+                                firstVisibleOption = option; // Armazena a primeira opção visível
+                            }
+                        } else {
+                            option.style.display = "none"; // Oculta a opção
+                        }
+                    }
+
+                    if (firstVisibleOption) {
+                        firstVisibleOption.selected = true; // Seleciona a primeira opção visível
+                    }
+                }
+
+
+            </script>
+        </body>
+        </html>

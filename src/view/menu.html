@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Importação da fonte Jacquard 12 -->
+    <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="rain"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>Loja</h1>
+            <hr>
+        </header>
+
+        <section class="cadastro">
+            <h2>Cadastro</h2>
+            <div class="buttons">
+                <a href="/produtos" class="btn">&gt; Produtos</a>
+                <a href="/clientes" class="btn">&gt; Clientes</a>
+            </div>
+        </section>
+
+        <section class="venda">
+            <h2>Venda</h2>
+            <div class="buttons">
+                <a href="/venda" class="btn">&gt; Realizar uma venda</a>
+                <a href="/vendas" class="btn">&gt; Registro de vendas</a>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/rain.js') }}"></script>
+</body>
+</html>

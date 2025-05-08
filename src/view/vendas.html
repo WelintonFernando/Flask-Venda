@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Vendas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Registro de vendas</h1>
+            <hr>
+        </header>
+
+        <div class="content registro-vendas">
+            <div class="vendas-produtos">
+                <!-- Vendas -->
+                <section class="vendas-box">
+                    <h2>Vendas</h2>
+                    <div class="tabela-container">
+                        <table class="produtos-tabela">
+                            <thead>
+                                <tr>
+                                    <th>Venda</th>
+                                    <th>Codcliente</th>
+                                    <th>Nome</th>
+                                    <th>Data</th>
+                                    <th>Total</th>
+                                    <th>Selecionar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for venda in vendas %}
+                                <tr>
+                                    <td>{{ venda.codvenda }}</td>
+                                    <td>{{ venda.codcliente }}</td>
+                                    <td>{{ venda.nome }}</td>
+                                    <td>{{ venda.data }}</td>
+                                    <td>R$ {{ venda.total }}</td>
+                                    <td>
+                                        <a href="/visualizar_venda/{{ venda.codvenda }}" class="btn-tabela">Selecionar</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Barra de pesquisa -->
+                    <form action="/pesquisar_venda" method="POST" class="input-pesquisa">
+                        <input type="text" name="termo" placeholder="Pesquisar">
+                        <button type="submit" class="search-button">
+                            <img src="{{ url_for('static', filename='img/search.png') }}" alt="Pesquisar">
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Produtos da venda -->
+                <section class="produtos-venda-box">
+                    <h2>Produtos da venda</h2>
+                    <div class="tabela-container">
+                        <table class="produtos-tabela">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>Preço</th>
+                                    <th>Quantidade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for produto in itens %}
+                                <tr>
+                                    <td>{{ produto.codproduto }}</td>
+                                    <td>{{ produto.nome }}</td>
+                                    <td>R$ {{ produto.preco }}</td>
+                                    <td>{{ produto.quantidade }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+
+        </div>
+            <!-- Botão voltar -->
+            <div class="venda-actions">
+                <a href="/" class="btn">Voltar</a>
+            </div>
+    </div>
+
+</body>
+</html>

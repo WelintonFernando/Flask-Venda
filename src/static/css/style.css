@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #e0e0e0;
+    height: 100vh;
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.3) 100%);
+    z-index: 1;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+header h1 {
+    font-family: 'Jacquard 12', cursive;
+    font-size: 48px;
+    margin: 20px 0 10px;
+}
+
+header hr {
+    width: 100%;
+    border: 1px solid black;
+}
+
+section {
+    margin-top: 40px;
+}
+
+section h2 {
+    font-family: 'Jacquard 12', cursive;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+/* Botões */
+.buttons {
+    display: flex;
+    flex-direction: column; /* força empilhar verticalmente */
+    gap: 10px; /* espaço entre os botões */
+    align-items: center;
+}
+
+.btn {
+    display: inline-block;
+    font-size: 16px;
+    font-family: monospace;
+    color: black;
+    text-decoration: none; /* tira o sublinhado azul */
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    color: darkblue;
+    transform: scale(1.05);
+}
+
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.cadastro-produto,
+.produtos-cadastrados {
+
+}
+
+.cadastro-produto h2,
+.produtos-cadastrados h2 {
+    font-family: 'Jacquard 12', cursive;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.form-produto {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    gap: 10px;
+}
+
+.form-group input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.input-codigo {
+    width: 50%;
+}
+
+
+.buttons-form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.produtos-cadastrados {
+    background: #f0f0f0;
+    border-radius: 15px;
+    padding: 20px;
+    width: 900px;
+}
+
+.produtos-tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.produtos-tabela th, .produtos-tabela td {
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.produtos-tabela th {
+    font-weight: bold;
+}
+
+.produtos-tabela th:nth-child(2),
+.produtos-tabela td:nth-child(2) {
+    width: 30%;
+    text-align: left;
+}
+
+.produtos-tabela th:nth-child(3),
+.produtos-tabela td:nth-child(3) {
+    width: 35%;
+    text-align: left;
+}
+
+
+.produtos-tabela tr {
+    border-bottom: 1px solid black;
+}
+
+.btn-tabela {
+    font-size: 14px;
+    font-family: monospace;
+    color: black;
+    text-decoration: none;
+    padding: 5px 10px;
+    background: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-tabela:hover {
+    background: black;
+    color: white;
+}
+
+.input-pesquisa {
+    position: relative;
+    width: 100%;
+}
+
+
+.input-pesquisa input[type="text"] {
+    width: 100%;
+    padding: 10px 40px 10px 15px; /* espaço para a lupa do lado direito */
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.input-pesquisa .search-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.input-pesquisa .search-button img {
+    width: 17px;
+    height: 17px;
+}
+
+.venda-container {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+
+.venda-topo {
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Para garantir que fique acima de outros elementos */
+    padding: 10px; /* Ajuste conforme necessário */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.venda-tabelas {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.tabela-box {
+    flex: 1;
+    background: #f0f0f0;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.tabela-box h3 {
+    font-family: 'Jacquard 12', cursive;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.produtos-tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.produtos-tabela th, .produtos-tabela td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.quantidade-input {
+    width: 60px;
+    padding: 4px;
+    font-size: 14px;
+}
+
+.venda-actions {
+    margin-top: 30px;
+    display: bottom;
+    justify-content: space-between;
+    padding: 0 50px;
+}
+
+
+
+.vendas-produtos {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.vendas-box, .produtos-venda-box {
+    flex: 1;
+}
+
+.input-pesquisa {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+
+
+
+
+#rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
